@@ -9,17 +9,24 @@ harray = np.array([np.array(h['bin_values'])
 
 from numba import cuda
 
-# 1) kernels cannot return a value
-# 2) kernels explicitly declare their thread hierarchy when called
 @cuda.jit
 def calc(result, harray):
-    idx = cuda.threadIdx.x
+    tx = cuda.threadIdx.x
+    ty = cuda.blockIdx.x
+    bw = cuda.blockDim.x
+    idx = tx + ty * bw 
     arr = harray[idx]
     for bv in arr:
         result[idx] += bv
 
 result = np.zeros(len(harray))
 cuda.profile_start()
-calc[1,len(harray)](result, harray)
+n_threads_per_block = 32
+nblocks = (len(harray) + (n_threads_per_block - 1)) // n_threads_per_block
+calc[nblocks, n_threads_per_block](result, harray)
 cuda.profile_stop()
 print(sum(result))
+print("nblocks = %d" % nblocks)
+print("nthreads = %d" % (nblocks * n_threads_per_block))
+
+
