@@ -8,7 +8,6 @@ Requirements
 * CUDA 8 (9 doesn't work well with numba yet)
 * numpy
 * ipython (optional)
-* matplotlib (optional)
 
 Installation Instructions
 =========================
@@ -20,5 +19,5 @@ https://conda.io/miniconda.html
 
 Install the following packages:
 
-$HOME/miniconda2/bin/conda install numba ipython matplotlib cudatoolkit=8
+$HOME/miniconda2/bin/conda install numba ipython cudatoolkit=8
 (assuming the default installation of miniconda in $HOME)
