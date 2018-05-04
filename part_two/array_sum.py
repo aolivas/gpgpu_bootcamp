@@ -2,8 +2,7 @@
 
 from __future__ import print_function
 
-import time
-from math import cos
+import time, sys
 import numpy as np
 from numba import cuda
 
@@ -14,11 +13,9 @@ def sum_coaine(result, data):
     for value in array:
         result[idx] += cos(value)a
 
-n_arrays = 1024
-array_size = 10000
+N = 8192
 np.random.seed(42)
-data = np.array([np.random.random(array_size)
-                 for i in range(n_arrays)])
+data = np.random.random((N,N))
 
 result = np.zeros(n_arrays)
 start_time = time.time()

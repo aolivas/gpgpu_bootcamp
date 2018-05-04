@@ -13,8 +13,8 @@ def sum_array(result, data):
 n_arrays = 1024
 array_size = 10000
 np.random.seed(42)
-data = np.array([np.random.random(array_size)
-                 for i in range(n_arrays)])
+data = np.random.random((n_arrays, array_size))
+                 
 
 result1 = np.zeros(n_arrays)
 result2 = np.zeros(n_arrays)
