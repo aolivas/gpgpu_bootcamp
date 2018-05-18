@@ -39,19 +39,15 @@ slow_C= np.zeros((N,N))
 c = np.zeros((N,N))
 fast_multiply[1,1](A,B,c)
 
-import sys
 import time
 cuda.profile_start()
-if len(sys.argv) > 1:
-    start_time = time.time()
-    slow_multiply[1,(N,N)](A, B, slow_C)
-    end_time = time.time()
-else:
-    start_time = time.time()
-    fast_multiply[1,(N,N)](A, B, fast_C)
-    end_time = time.time()
+start_time = time.time()
+slow_multiply[1,(N,N)](A, B, slow_C)
+mid_time = time.time()
+fast_multiply[1,(N,N)](A, B, fast_C)
+end_time = time.time()
 cuda.profile_stop()
-print("elapsed time = %.2f ms" % (1e3*(end_time - start_time)))
-#print("elapsed time (fast) = %.2f ms" % (1e3*(end_time - mid_time)))
-#assert(np.array_equal(fast_C, slow_C))
+print("elapsed time (slow) = %.2f ms" % (1e3*(mid_time - start_time)))
+print("elapsed time (fast) = %.2f ms" % (1e3*(end_time - mid_time)))
+assert(np.array_equal(fast_C, slow_C))
 

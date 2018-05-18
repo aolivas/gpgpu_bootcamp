@@ -14,7 +14,7 @@ result = np.zeros(array_size)
 @cuda.jit
 def kernel(result, array, offset):
     idx = cuda.threadIdx.x + offset 
-    result[idx + offset] = 10. * array[idx] 
+    result[idx] = array[idx] 
     
 cuda.profile_start()
 kernel[1,1024](result, data, offset)
